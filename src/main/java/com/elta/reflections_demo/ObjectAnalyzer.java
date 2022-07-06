@@ -11,6 +11,7 @@ import java.util.Arrays;
  */
 public class ObjectAnalyzer {
 
+
     public static void main(String[] args) {
         ObjectAnalyzer analyzer = new ObjectAnalyzer();
         analyzer.runAllTests("com.elta.reflections_demo.Test1");
@@ -33,7 +34,7 @@ public class ObjectAnalyzer {
     public void runTestMethods(Object o){
         Method[] declaredMethods = o.getClass().getDeclaredMethods();
         for (Method method : declaredMethods) {
-            if (method.getName().toLowerCase().contains("test")) {
+            if (method.getName().toLowerCase().contains("test")|| method.isAnnotationPresent(RunThisMethod.class)) {
                 method.invoke(o);
             }
         }

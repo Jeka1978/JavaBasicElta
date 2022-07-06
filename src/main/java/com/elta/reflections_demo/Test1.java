@@ -9,7 +9,8 @@ public class Test1 {
         System.out.println("test object was created and configured for specific test");
     }
 
-    public void test1() {
+    @RunThisMethod
+    public void runThisMethod() {
         System.out.println("!11111!");
     }
 
