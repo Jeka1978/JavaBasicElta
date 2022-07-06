@@ -1,6 +1,7 @@
 package com.elta.reflections_demo;
 
 import com.elta.enum_games.Person;
+import com.elta.my_spring.InjectRandomInt;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Method;
