@@ -9,8 +9,7 @@ public class JavaConfig implements Config {
 
 
     private Map<Class<?>, Class<?>> map = Map.of(
-            Speaker.class, ConsoleSpeaker.class,
-            Cleaner.class, CleanerImpl.class);
+            Speaker.class, ConsoleSpeaker.class);
 
 
 
