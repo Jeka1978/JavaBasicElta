@@ -12,6 +12,9 @@ public class IRobot {
     @InjectByType
     private Cleaner cleaner;
 
+    //todo make it work @InjectRandomName(fileName = "path to file")
+    private String name;
+
     public void cleanRoom() {
         speaker.say("I started");
         cleaner.clean();
