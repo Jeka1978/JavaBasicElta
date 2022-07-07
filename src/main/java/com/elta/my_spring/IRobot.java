@@ -7,8 +7,10 @@ import java.rmi.dgc.DGC;
  */
 public class IRobot {
 
-    private Speaker speaker = ObjectFactory.INSTANCE.createObject(Speaker.class);
-    private Cleaner cleaner = ObjectFactory.INSTANCE.createObject(Cleaner.class);
+    @InjectByType
+    private Speaker speaker;
+    @InjectByType
+    private Cleaner cleaner;
 
     public void cleanRoom() {
         speaker.say("I started");

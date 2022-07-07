@@ -5,7 +5,7 @@ package com.elta.my_spring;
  */
 public class Main {
     public static void main(String[] args) {
-        IRobot iRobot = new IRobot();
+        IRobot iRobot = ObjectFactory.INSTANCE.createObject(IRobot.class);
         iRobot.cleanRoom();
     }
 }

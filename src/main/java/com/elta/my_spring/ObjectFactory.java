@@ -6,6 +6,9 @@ import org.reflections.Reflections;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -19,7 +22,16 @@ public enum ObjectFactory {
     private Config config = new JavaConfig();
     private Reflections scanner = new Reflections("com.elta");
 
+    private List<ObjectConfigurator> objectConfigurators = new ArrayList<>();
+
+    @SneakyThrows
     private ObjectFactory() {
+        Set<Class<? extends ObjectConfigurator>> classes = scanner.getSubTypesOf(ObjectConfigurator.class);
+        for (Class<? extends ObjectConfigurator> aClass : classes) {
+            if (!Modifier.isAbstract(aClass.getModifiers())) {
+                objectConfigurators.add(aClass.getDeclaredConstructor().newInstance());
+            }
+        }
     }
 
     @SneakyThrows
@@ -28,26 +40,15 @@ public enum ObjectFactory {
 
         T t = create(type);
 
-        Field[] fields = type.getDeclaredFields();
-        for (Field field : fields) {
-            InjectRandomInt annotation = field.getAnnotation(InjectRandomInt.class);
-            if (annotation != null) {
-                int min = annotation.min();
-                int max = annotation.max();
-                Random random = new Random();
-                int value = random.nextInt(max - min) + min;
+        configure(t);
 
-                field.setAccessible(true);
-                field.set(t,value);
-
-            }
-        }
-
-
-        //todo write support for @InjectRandomInt
 
         return t;
 
+    }
+
+    private <T> void configure(T t) {
+        objectConfigurators.forEach(objectConfigurator -> objectConfigurator.configure(t));
     }
 
     private <T> T create(Class<T> type) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
@@ -63,7 +64,7 @@ public enum ObjectFactory {
                 if (classes.size() != 1) {
                     throw new IllegalStateException("0 or more than 1 impl of " + type + " was found, please update your config");
                 }
-                type = (Class<T>) classes.iterator().next();
+                implClass = (Class<T>) classes.iterator().next();
             }
             type = implClass;
         }
