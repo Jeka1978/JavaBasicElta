@@ -20,7 +20,6 @@ import java.util.List;
 
 @Value
 @With
-@Slf4j
 //@Log4j
 public class Employee implements Comparable<Employee>{
     private String name;
