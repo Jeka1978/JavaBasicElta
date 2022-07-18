@@ -17,8 +17,17 @@ public class EmployeeService {
 
     public Map<Seniority, List<Employee>> groupBySeniority(List<Employee> employees) {
 
-       return employees.stream().collect(Collectors.groupingBy(employee -> Seniority.bySalary(employee.getSalary())));
+        return employees.stream().collect(Collectors.groupingBy(employee -> Seniority.bySalary(employee.getSalary())));
 
+    }
+
+    public Map<Seniority, Long> countBySeniority(List<Employee> employees) {
+
+        /* employees.stream().collect(Collectors.groupingBy(employee -> Seniority.bySalary(employee.getSalary()),
+                Collectors.maxBy(Comparator.comparing(Employee::getSalary))));*/
+
+        return employees.stream().collect(Collectors.groupingBy(employee -> Seniority.bySalary(employee.getSalary()),
+                Collectors.counting()));
     }
 
     public static void main(String[] args) {
