@@ -1,5 +1,7 @@
 package com.elta.my_spring;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author Evgeny Borisov
  */
@@ -9,11 +11,13 @@ public class CleanerImpl implements Cleaner {
 
     //todo make this method run in the beginning, but after object was configured and all was injected
 
+    @PostConstruct
     public void init() {
         System.out.println("repeat = " + repeat);
     }
 
     @Override
+    @Benchmark
     public void clean() {
         for (int i = 0; i < repeat; i++) {
             System.out.println("VVVVVVVVVVVVVVVvvvvvvvvvvvvvvvvv");

@@ -3,9 +3,11 @@ package com.elta.my_spring;
 import lombok.SneakyThrows;
 import org.reflections.Reflections;
 
+import javax.annotation.PostConstruct;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.Set;
  * @author Evgeny Borisov
  */
 public enum ObjectFactory {
+
+
 
     INSTANCE;
 
@@ -42,9 +46,21 @@ public enum ObjectFactory {
 
         configure(t);
 
+        invokeInitMethods(type, t);
+
 
         return t;
 
+    }
+
+    private <T> void invokeInitMethods(Class<T> type, T t) throws IllegalAccessException, InvocationTargetException {
+        Method[] methods = type.getDeclaredMethods();
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(PostConstruct.class)) {
+                method.setAccessible(true);
+                method.invoke(t);
+            }
+        }
     }
 
     private <T> void configure(T t) {
