@@ -21,6 +21,7 @@ public enum ObjectFactory {
     private Reflections scanner = new Reflections("com.elta");
 
     private List<ObjectConfigurator> objectConfigurators = new ArrayList<>();
+    private List<ProxyConfigurator> proxyConfigurators = new ArrayList<>();
 
     @SneakyThrows
     private ObjectFactory() {
@@ -30,6 +31,15 @@ public enum ObjectFactory {
                 objectConfigurators.add(aClass.getDeclaredConstructor().newInstance());
             }
         }
+
+        Set<Class<? extends ProxyConfigurator>> proxyConfiguratorClasses = scanner.getSubTypesOf(ProxyConfigurator.class);
+        for (Class<? extends ProxyConfigurator> proxyConfiguratorClass : proxyConfiguratorClasses) {
+            if (!Modifier.isAbstract(proxyConfiguratorClass.getModifiers())) {
+                proxyConfigurators.add(proxyConfiguratorClass.getDeclaredConstructor().newInstance());
+            }
+        }
+
+
     }
 
     @SneakyThrows
@@ -44,23 +54,17 @@ public enum ObjectFactory {
 
         invokeInitMethods(type, t);
 
-        if (type.isAnnotationPresent(Benchmark.class)) {
-            return (T) Proxy.newProxyInstance(type.getClassLoader(), type.getInterfaces(), new InvocationHandler() {
-                @Override
-                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                    System.out.println("********** Benchmark started for method " + method.getName() + " ********");
-                    long start = System.nanoTime();
-                    Object retVal = method.invoke(t, args);
-                    long end = System.nanoTime();
-                    System.out.println(end - start);
-                    System.out.println("********** Benchmark ended for method " + method.getName() + " ********");
-                    return retVal;
-                }
-            });
-        }
+        t = repaceWithProxyIfNeeded(type, t);
 
         return t;
 
+    }
+
+    private <T> T repaceWithProxyIfNeeded(Class<T> type, T t) {
+        for (ProxyConfigurator proxyConfigurator : proxyConfigurators) {
+            t = (T) proxyConfigurator.replaceWithProxyIfNeeded(t, type);
+        }
+        return t;
     }
 
     private <T> void invokeInitMethods(Class<T> type, T t) throws IllegalAccessException, InvocationTargetException {
