@@ -8,8 +8,14 @@ public class Main {
 //        IRobot iRobot = ObjectFactory.INSTANCE.createObject(IRobot.class);
 //        iRobot.cleanRoom();
 
-        EltaService eltaService = ObjectFactory.INSTANCE.createObject(EltaService.class);
+       /* EltaService eltaService = ObjectFactory.INSTANCE.createObject(EltaService.class);
         eltaService.drinkBeer();
-        eltaService.work();
+        eltaService.work();*/
+
+        //use CGLIB
+        NayaService nayaService = ObjectFactory.INSTANCE.createObject(NayaService.class);
+        nayaService.c();
+
+
     }
 }
