@@ -10,14 +10,14 @@ import java.util.Arrays;
  */
 public class BenchmarkProxyConfigurator implements ProxyConfigurator {
     @Override
-    public Object replaceWithProxyIfNeeded(Object t, Class<?> type) {
+    public Object replaceWithProxyIfNeeded(Object t, Class<?> originalClass) {
 
-        if (type.isAnnotationPresent(Benchmark.class)|| Arrays.stream(type.getMethods()).anyMatch(method -> method.isAnnotationPresent(Benchmark.class))) {
-            return Proxy.newProxyInstance(type.getClassLoader(), type.getInterfaces(), new InvocationHandler() {
+        if (originalClass.isAnnotationPresent(Benchmark.class)|| Arrays.stream(originalClass.getMethods()).anyMatch(method -> method.isAnnotationPresent(Benchmark.class))) {
+            return Proxy.newProxyInstance(originalClass.getClassLoader(), originalClass.getInterfaces(), new InvocationHandler() {
                 @Override
                 public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                    Method classMethod = type.getMethod(method.getName(), method.getParameterTypes());
-                    if (type.isAnnotationPresent(Benchmark.class)||classMethod.isAnnotationPresent(Benchmark.class)) {
+                    Method classMethod = originalClass.getMethod(method.getName(), method.getParameterTypes());
+                    if (originalClass.isAnnotationPresent(Benchmark.class)||classMethod.isAnnotationPresent(Benchmark.class)) {
                         System.out.println("********** Benchmark started for method " + method.getName() + " ********");
                         long start = System.nanoTime();
                         Object retVal = method.invoke(t, args);
