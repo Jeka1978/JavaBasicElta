@@ -2,12 +2,13 @@ package com.elta.real_spring;
 
 import com.elta.my_spring.InjectRandomInt;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * @author Evgeny Borisov
  */
 public class ShakespearQuoter implements Quoter {
-    @Setter
+    @Value("${shakespear}")
     private String message;
     @InjectRandomInt(min = 3, max = 7)
     private int repeat = 0;

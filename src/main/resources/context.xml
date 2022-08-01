@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:quoters.properties"/>
+
+    <context:component-scan base-package="com.elta.real_spring"/>
 
 
-    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+
+    <bean class="com.elta.real_spring.InjectRandomIntBPP"/>
+
+
+
 
     <bean id="talkingRobot" class="com.elta.real_spring.TalkingRobot">
-
 
         <property name="quoters">
             <list>
@@ -17,10 +25,9 @@
         </property>
     </bean>
     <bean id="shakespearQuoter" class="com.elta.real_spring.ShakespearQuoter">
-        <property name="message" value="2 B || ! 2 B"/>
     </bean>
 
-    <bean id="terminatorQuoter" class="com.elta.real_spring.TerminatorQuoter">
+    <bean id="terminatorQuoter"  class="com.elta.real_spring.TerminatorQuoter" destroy-method="killAll">
         <property name="messages">
             <list>
                 <value>Astalavista baby</value>
