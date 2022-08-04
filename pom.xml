@@ -36,17 +36,24 @@
 
         </dependencies>
     </dependencyManagement>
-
+    <properties>
+        <spring.version>5.3.18</spring.version>
+    </properties>
 
 
     <dependencies>
 
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>5.3.18</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
@@ -69,7 +76,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>5.3.18</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
