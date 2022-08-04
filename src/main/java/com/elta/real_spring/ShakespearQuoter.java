@@ -1,12 +1,12 @@
 package com.elta.real_spring;
 
 import com.elta.my_spring.InjectRandomInt;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
  * @author Evgeny Borisov
  */
+@BookComponent
 public class ShakespearQuoter implements Quoter {
     @Value("${shakespear}")
     private String message;
