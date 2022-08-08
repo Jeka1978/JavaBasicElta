@@ -8,6 +8,7 @@ import org.springframework.context.annotation.*;
 @Configuration
 @ComponentScan
 @PropertySource("classpath:quoters.properties")
+@EnableAspectJAutoProxy
 public class QuoterConfig {
 
 }

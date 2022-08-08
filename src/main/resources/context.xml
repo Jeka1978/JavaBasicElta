@@ -4,35 +4,14 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder location="classpath:quoters.properties"/>
 
-    <context:component-scan base-package="com.elta.real_spring"/>
+    <bean id="color2" class="java.awt.Color">
 
-
-
-    <bean class="com.elta.real_spring.InjectRandomIntBPP"/>
-
-
-
-
-    <bean id="talkingRobot" class="com.elta.real_spring.TalkingRobot">
-
-        <property name="quoters">
-            <list>
-                <ref bean="shakespearQuoter"/>
-                <ref bean="terminatorQuoter"/>
-            </list>
-        </property>
-    </bean>
-    <bean id="shakespearQuoter" class="com.elta.real_spring.ShakespearQuoter">
+        <constructor-arg index="0" type="int" value="255"/>
+        <constructor-arg index="1" type="int" value="255"/>
+        <constructor-arg index="2" type="int" value="0"/>
     </bean>
 
-    <bean id="terminatorQuoter"  class="com.elta.real_spring.TerminatorQuoter" destroy-method="killAll">
-        <property name="messages">
-            <list>
-                <value>Astalavista baby</value>
-                <value>I'll be back</value>
-            </list>
-        </property>
-    </bean>
+
+
 </beans>

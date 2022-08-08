@@ -2,6 +2,7 @@ package com.elta.real_spring;
 
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -12,7 +13,7 @@ import java.util.List;
  */
 @Component
 public class TalkingRobot {
-    @BookComponent
+    @Autowired
     private List<Quoter> quoters;
 
 

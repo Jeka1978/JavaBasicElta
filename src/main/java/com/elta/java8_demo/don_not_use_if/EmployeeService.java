@@ -11,7 +11,7 @@ public class EmployeeService {
 
 
     public Map<Seniority, List<Employee>> groupEmpBySeniority(List<Company> companyList) {
-        List<Employee> employees = companyList.stream().flatMap(company -> company.getEmployees().stream()).toList();
+        List<Employee> employees = companyList.stream().flatMap(company -> company.getEmployees().stream()).collect(Collectors.toList());
         return groupBySeniority(employees);
     }
 
